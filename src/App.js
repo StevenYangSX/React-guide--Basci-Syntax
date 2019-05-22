@@ -10,7 +10,8 @@ class App extends Component {
       { name: 'Max', age: 28 },
       { name: 'Manu', age: 29},
       { name: 'Steph', age: 26}
-    ]
+    ],
+    showPersons: false
   }//persons is array of persons(JS objects)
 
   //this function is called below. in button. onClick.
@@ -19,10 +20,50 @@ class App extends Component {
     // Dont do this!!!     ----->  this.state.persons[0].name = 'Maximilian';
     this.setState({
       persons: [
-        { name: 'Maximilian', age: 28 },
-        { name: 'Manu', age: 29},
-        { name: 'Steph', age: 2}
+        { id:'p1',name: 'Maximilian', age: 28 },
+        { id:'p2',name: 'Manu', age: 29},
+        { id:'p3',name: 'Steph', age: 2}
     ]
+    })
+  }
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow}); 
+    // this !doesShow makes it as really toggle. false -> ture, true -> false
+  }
+
+
+  deletePersonHandler = (personIndex) => {
+
+    //const persons = this.state.persons.slice(); 
+    //copy a new array to variable persons. rather than a pointer.
+
+    //we can also use ES6 new feature: spread operator.
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
+
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p=>{
+      return p.id === id;
+    });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    {//another approach to create a new copy of object
+      //const person = Object.assign({}, this.state.persons[personIndex])
+    };
+
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState ({
+      persons: persons
     })
   }
 
@@ -35,6 +76,30 @@ class App extends Component {
       cursor:'pointer'
     };   //inline styling    only working within this scope...
 
+    let persons = null;
+    if(this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map( (person, index) => {
+            return <Person click={() => this.deletePersonHandler(index)}
+            name={person.name} age={person.age}
+            key={person.id} //key attribute.
+            changed={(event) => this.nameChangedHandler(event, person.id)}
+            />
+          })}
+
+          {
+          /*
+            <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+            <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My hobbies: Racing</Person>
+            <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+          */
+          }
+
+        </div> 
+      )
+    }
+
 
     return (
       <div className="App">
@@ -42,10 +107,26 @@ class App extends Component {
         <p>This is really working.</p>
         <button
         style={style} 
-        onClick={this.switchNameHandler}>Switch Name</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My hobbies: Racing</Person>
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        onClick={this.togglePersonsHandler}>Toggle Name</button>
+
+        {persons}  
+        {
+        //this persons refers to variable persons defiend above
+        }
+
+
+        {
+          /*  
+        this.state.showPersons ?  // JSX syntax. By using {}, we actually writing JavaScript
+        // this ? means: if this.state.showPersons is true. If true. render the following  
+          <div>
+            <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+            <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My hobbies: Racing</Person>
+            <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+          </div> : null // here, : means "else". If state.showPersons is false.
+          */
+        } 
+
       </div>
     );
 
