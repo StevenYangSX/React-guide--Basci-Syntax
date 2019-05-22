@@ -8,7 +8,7 @@ const person = (props) => {   // using of props: like arguments. passing atribut
         <div className="Person">
             <p onClick={props.click}>I'm a {props.name} I am {props.age} years old.</p>
             <p>{props.children}</p>    
-            <input type="text" />   
+            <input type="text" onChange={props.changed} value={props.name} />   
         </div>
     )
     // children refers to  any elements between the openring / closing tags
