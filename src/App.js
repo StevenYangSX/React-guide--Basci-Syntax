@@ -10,7 +10,8 @@ class App extends Component {
       { name: 'Max', age: 28 },
       { name: 'Manu', age: 29},
       { name: 'Steph', age: 26}
-    ]
+    ],
+    showPersons: false
   }//persons is array of persons(JS objects)
 
   //this function is called below. in button. onClick.
@@ -26,6 +27,14 @@ class App extends Component {
     })
   }
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow}); 
+    // this !doesShow makes it as really toggle. false -> ture, true -> false
+  }
+
+
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -35,6 +44,17 @@ class App extends Component {
       cursor:'pointer'
     };   //inline styling    only working within this scope...
 
+    let persons = null;
+    if(this.state.showPersons) {
+      persons = (
+        <div>
+            <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+            <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My hobbies: Racing</Person>
+            <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        </div> 
+      )
+    }
+
 
     return (
       <div className="App">
@@ -42,10 +62,26 @@ class App extends Component {
         <p>This is really working.</p>
         <button
         style={style} 
-        onClick={this.switchNameHandler}>Switch Name</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My hobbies: Racing</Person>
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        onClick={this.togglePersonsHandler}>Switch Name</button>
+
+        {persons}  
+        {
+        //this persons refers to variable persons defiend above
+        }
+
+
+        {
+          /*  
+        this.state.showPersons ?  // JSX syntax. By using {}, we actually writing JavaScript
+        // this ? means: if this.state.showPersons is true. If true. render the following  
+          <div>
+            <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+            <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My hobbies: Racing</Person>
+            <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+          </div> : null // here, : means "else". If state.showPersons is false.
+          */
+        } 
+
       </div>
     );
 
