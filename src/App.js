@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person'
+import Person from './Person/Person';
 
 class App extends Component {
   //this part only works in class that extends Component.
@@ -69,11 +69,13 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor:'pointer'
+      cursor:'pointer',
+      
     };   //inline styling    only working within this scope...
 
     let persons = null;
@@ -86,7 +88,7 @@ class App extends Component {
             key={person.id} //key attribute.
             changed={(event) => this.nameChangedHandler(event, person.id)}
             />
-          })}
+          })};
 
           {
           /*
@@ -97,14 +99,39 @@ class App extends Component {
           }
 
         </div> 
-      )
+      );
+      
+
+
+      /*  Hover selector:Definition and Usage
+      The :hover selector is used to select elements when you mouse over them.
+      Tip: The :hover selector can be used on all elements, not only on links.
+      Tip: Use the :link selector to style links to unvisited pages, the :visited 
+      selector to style links to visited pages, and the :active selector to style 
+      the active link.
+      Note: :hover MUST come after :link and :visited (if they are present) in the 
+      CSS definition, in order to be effective!
+      */
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black',
+      } //psedo selector
+
     }
 
+    const classes = [];
+    if(this.state.persons.length <= 2 ) {
+      classes.push('red'); // push function...
+    }
+    if(this.state.persons.length <=1 ) {
+      classes.push('bold');
+    }
 
     return (
+       
       <div className="App">
         <h1>Hi, Im a react App..</h1>
-        <p>This is really working.</p>
+        <p className={classes.join(' ')}>This is really working.</p>
         <button
         style={style} 
         onClick={this.togglePersonsHandler}>Toggle Name</button>
@@ -128,6 +155,7 @@ class App extends Component {
         } 
 
       </div>
+      
     );
 
     //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'This works!'));
