@@ -1,14 +1,14 @@
 // This is another form to create a component. By a javascript function.
 // Remember: we are uisng ES6 features : "const" key word and arrow functions
 import React from 'react';
-import './Person.css';
+import classes from './Person.css';
 
 
 const person = (props) => {   // using of props: like arguments. passing atributes.
 
 
     return (
-        <div className="Person" >
+        <div className={classes.Person} >
             <p onClick={props.click}>I'm a {props.name} I am {props.age} years old.</p>
             <p>{props.children}</p>    
             <input type="text" onChange={props.changed} value={props.name} />   
