@@ -6,6 +6,10 @@ import classes from './Person.css';
 
 const person = (props) => {   // using of props: like arguments. passing atributes.
 
+    const rnd = Math.random();
+    if(rnd > 0.7) {
+        throw new Error('Something went wrong.')
+    }
 
     return (
         <div className={classes.Person} >
@@ -19,8 +23,6 @@ const person = (props) => {   // using of props: like arguments. passing atribut
     // Remember the  {} .  We can call functions in it.  
 
 };
-
-
 
 
 

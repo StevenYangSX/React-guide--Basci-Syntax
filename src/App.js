@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   //this part only works in class that extends Component.
@@ -54,9 +55,9 @@ class App extends Component {
       ...this.state.persons[personIndex]
     };
 
-    {//another approach to create a new copy of object
+    //{//another approach to create a new copy of object
       //const person = Object.assign({}, this.state.persons[personIndex])
-    };
+    //};
 
     person.name = event.target.value;
     const persons = [...this.state.persons];
@@ -68,6 +69,8 @@ class App extends Component {
   }
 
   render() {
+    /*
+    {
     const style = {
       backgroundColor: 'green',
       color: 'white',
@@ -76,18 +79,22 @@ class App extends Component {
       padding: '8px',
       cursor:'pointer',
       
-    };   //inline styling    only working within this scope...
-
+    }; 
+    }  //inline styling    only working within this scope...
+    */
+    let buttonClass = '';
     let persons = null;
     if(this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map( (person, index) => {
-            return <Person click={() => this.deletePersonHandler(index)}
-            name={person.name} age={person.age}
-            key={person.id} //key attribute.
-            changed={(event) => this.nameChangedHandler(event, person.id)}
+            return <ErrorBoundary>
+              <Person click={() => this.deletePersonHandler(index)}
+                name={person.name} age={person.age}
+                key={person.id} //key attribute.
+                changed={(event) => this.nameChangedHandler(event, person.id)}
             />
+              </ErrorBoundary>
           })};
 
           {
@@ -97,8 +104,8 @@ class App extends Component {
             <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
           */
           }
-
         </div> 
+
       );
       
 
@@ -112,11 +119,11 @@ class App extends Component {
       Note: :hover MUST come after :link and :visited (if they are present) in the 
       CSS definition, in order to be effective!
       */
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black',
-      } //psedo selector
-
+      //style[':hover'] = {
+       // backgroundColor: 'salmon',
+        //color: 'black',
+      //} //psedo selector
+      buttonClass = classes.red;
     }
 
     const assignedClasses = [];
@@ -133,7 +140,8 @@ class App extends Component {
         <h1>Hi, Im a react App..</h1>
         <p className={assignedClasses.join(' ')}>This is really working.</p>
         <button
-        style={style} 
+        //style={style} 
+        className = {buttonClass}
         onClick={this.togglePersonsHandler}>Toggle Name</button>
 
         {persons}  

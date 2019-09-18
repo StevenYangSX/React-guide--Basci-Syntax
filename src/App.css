@@ -16,3 +16,25 @@ A CSS pseudo-class is a keyword added to a selector that specifies a special sta
 of the selected element(s). For example, :hover can be used to change a button's 
 color when the user's pointer hovers over it.
 */
+
+
+.App button {
+  border : 1px solid blue;
+  padding: 16px;
+  background-color: green;
+  font: inherit;
+  color: white;
+}
+
+.App button:hover {
+  background-color: lightgreen;
+  color: black;
+}
+
+.App button.red {
+  background-color: red;
+}
+.App button:hover {
+  background-color: salmon;
+  color: black;
+}
