@@ -6,3 +6,12 @@
     padding: 16px;
     text-align: center;
 }
+
+/* We can do this in .css file but we want to learn how to use Radium to handle media
+    query.
+@media (min-width: 500px) {
+    .Person {
+        width: 450px;
+    }
+}
+*/

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import Person from './Person/Person'
+import classes from './App.css';
+import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   //this part only works in class that extends Component.
@@ -54,9 +55,9 @@ class App extends Component {
       ...this.state.persons[personIndex]
     };
 
-    {//another approach to create a new copy of object
+    //{//another approach to create a new copy of object
       //const person = Object.assign({}, this.state.persons[personIndex])
-    };
+    //};
 
     person.name = event.target.value;
     const persons = [...this.state.persons];
@@ -68,25 +69,33 @@ class App extends Component {
   }
 
   render() {
+    /*
+    {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor:'pointer'
-    };   //inline styling    only working within this scope...
-
+      cursor:'pointer',
+      
+    }; 
+    }  //inline styling    only working within this scope...
+    */
+    let buttonClass = '';
     let persons = null;
     if(this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map( (person, index) => {
-            return <Person click={() => this.deletePersonHandler(index)}
-            name={person.name} age={person.age}
-            key={person.id} //key attribute.
-            changed={(event) => this.nameChangedHandler(event, person.id)}
+            return <ErrorBoundary>
+              <Person click={() => this.deletePersonHandler(index)}
+                name={person.name} age={person.age}
+                key={person.id} //key attribute.
+                changed={(event) => this.nameChangedHandler(event, person.id)}
             />
-          })}
+              </ErrorBoundary>
+          })};
 
           {
           /*
@@ -95,18 +104,44 @@ class App extends Component {
             <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
           */
           }
-
         </div> 
-      )
+
+      );
+      
+
+
+      /*  Hover selector:Definition and Usage
+      The :hover selector is used to select elements when you mouse over them.
+      Tip: The :hover selector can be used on all elements, not only on links.
+      Tip: Use the :link selector to style links to unvisited pages, the :visited 
+      selector to style links to visited pages, and the :active selector to style 
+      the active link.
+      Note: :hover MUST come after :link and :visited (if they are present) in the 
+      CSS definition, in order to be effective!
+      */
+      //style[':hover'] = {
+       // backgroundColor: 'salmon',
+        //color: 'black',
+      //} //psedo selector
+      buttonClass = classes.red;
     }
 
+    const assignedClasses = [];
+    if(this.state.persons.length <= 2 ) {
+      assignedClasses.push(classes.red); // push function...
+    }
+    if(this.state.persons.length <=1 ) {
+      assignedClasses.push(classes.bold);
+    }
 
     return (
-      <div className="App">
+       
+      <div className={classes.App}>
         <h1>Hi, Im a react App..</h1>
-        <p>This is really working.</p>
+        <p className={assignedClasses.join(' ')}>This is really working.</p>
         <button
-        style={style} 
+        //style={style} 
+        className = {buttonClass}
         onClick={this.togglePersonsHandler}>Toggle Name</button>
 
         {persons}  
@@ -128,6 +163,7 @@ class App extends Component {
         } 
 
       </div>
+      
     );
 
     //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'This works!'));
